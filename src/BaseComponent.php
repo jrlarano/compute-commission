@@ -5,7 +5,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class BaseCompontent extends SymfonyCommand
+class BaseComponent extends SymfonyCommand
 {
 
     protected $cashInFee  =   "";
@@ -24,7 +24,7 @@ class BaseCompontent extends SymfonyCommand
         $this->cashInFee = $this->getPercentToDecimal($percentageFee);
     }
 
-    public function setCashOutFee($cashOutFee = 0)
+    public function setCashOutFee($percentageFee = 0)
     {
         $this->cashOutFee = $this->getPercentToDecimal($percentageFee);
     }
@@ -39,9 +39,19 @@ class BaseCompontent extends SymfonyCommand
         return $this->cashOutFee;
     }
 
-    private function getPercentToDecimal($percent = 0)
+    public function getPercentToDecimal($percent = 0)
     {
         return $percent/100;
+    }
+
+    public function computeCommissionByExceed($exceed, $opType)
+    {
+        if($opType == 'cash_in') {
+            $fee = $this->getCashInFee();
+        } else {
+            $fee = $this->getCashOutFee();
+        }
+        return $exceed * $fee;
     }
 
     
