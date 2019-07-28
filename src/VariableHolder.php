@@ -38,12 +38,15 @@ class VariableHolder extends Command
             }
         }
 
-        $totalAmount = array_sum($opAmounts) + $rowArr['op_amount'];
+        $totalAmount = array_sum($opAmounts);
+        $exceedAmount = $totalAmount - $this->freeAmount;
 
         if($totalAmount <= $this->freeAmount) {
             return 0;
+        } elseif($exceedAmount >= $rowArr['op_amount']) {
+            return $rowArr['op_amount'];
         } else {
-            return $totalAmount - $this->freeAmount;
+            return $exceedAmount;
         }
     }
 

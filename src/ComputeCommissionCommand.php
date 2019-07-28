@@ -22,7 +22,8 @@ class ComputeCommissionCommand extends Command
     {
         // $this -> greetUser($input, $output);
         $output->writeln(["This is the CSV path", $input->getArgument('csvPath')]);
-        $output->writeln(["This is the exceed amount", $this->sampleData()]);
+        // $output->writeln(["This is the exceed amount", $this->sampleData()]);
+        $this->sampleData();
     }
 
     private function sampleData()
@@ -33,7 +34,7 @@ class ComputeCommissionCommand extends Command
                 "4",
                 "natural",
                 "cash_out",
-                "1200.00",
+                "200.00",
                 "EUR"
             ],
             [
@@ -41,18 +42,31 @@ class ComputeCommissionCommand extends Command
                 "4",
                 "natural",
                 "cash_out",
-                "1200.00",
+                "1300.00",
                 "EUR"
-            ]
+            ],
+            [
+                "2014-12-31",
+                "1",
+                "natural",
+                "cash_out",
+                "1300.00",
+                "EUR"
+            ],
         ];
 
         $variableHolder = new VariableHolder();
 
         $exceedAmount = [];
+        echo count($sampleData) . "\n";
         foreach($sampleData as $row) {
+            print_r($row) . "\n";
+            $variableHolder->insertRowToCsvRow($row);
             $exceedAmount[] = $variableHolder->computeExceedAmout($row);
+
+            echo "This is the exceeded amount: " . $variableHolder->computeExceedAmout($row) . "\n";
         }
-        return array_sum($exceedAmount);
+        // return array_sum($exceedAmount);
         // return $variableHolder->computeExceedAmout($sampleData);
 
     }
