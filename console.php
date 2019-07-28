@@ -6,6 +6,5 @@ use Symfony\Component\Console\Application;
 use Console\ComputeCommissionCommand;
 
 $app = new Application();
-$app -> add(new TimeCommand());
 $app -> add(new ComputeCommissionCommand());
 $app -> run();
