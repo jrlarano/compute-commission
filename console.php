@@ -3,8 +3,8 @@
 require_once __DIR__ . '/vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
-use Console\ComputeCommissionCommand;
+use Console\Controller\CommissionController;
 
 $app = new Application();
-$app -> add(new ComputeCommissionCommand());
+$app -> add(new CommissionController());
 $app -> run();

@@ -4,6 +4,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Console\TransactionModel;
 
 class VariableHolder extends Command
 {
@@ -23,18 +24,19 @@ class VariableHolder extends Command
 
     public function insertRowToCsvRow($row = [])
     {
-        $this->csvRow[] = $this->mapRowToCsvArr($row);
+        // $this->csvRow[] = $this->mapRowToCsvArr($row);
+        $this->csvRow[] = new TransactionModel($row);
     }
 
     public function computeExceedAmout($row)
     {
-        $rowArr = $this->mapRowToCsvArr($row);
+        $rowArr = new TransactionModel($row);
         $opAmounts = [];
         $freeAmount = $this->freeAmount;
 
         foreach($this->csvRow as $row) {
-            if($row['user_id'] == $rowArr['user_id']) {
-                $opAmounts[] = $row['op_amount'];
+            if($row->getUserId() == $rowArr['user_id']) {
+                $opAmounts[] = $row->getOperationAmount();
             }
         }
 
@@ -50,21 +52,9 @@ class VariableHolder extends Command
         }
     }
 
-    private function isWithinWeek($row)
+    public function isWithinWeek($row)
     {
         //bool if within week (monday-sunday)
-    }
-
-    private function mapRowToCsvArr($row)
-    {
-        return [
-            'date'      =>  $row[0],
-            'user_id'   =>  $row[1],
-            'user_type' =>  $row[2],
-            'op_type'   =>  $row[3],
-            'op_amount' =>  $row[4],
-            'op_currency'=> $row[5]
-        ];
     }
 
 

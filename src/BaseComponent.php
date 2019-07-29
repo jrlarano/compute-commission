@@ -8,8 +8,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 class BaseComponent extends SymfonyCommand
 {
 
-    protected $cashInFee  =   "";
-    protected $cashOutFee =   "";
+    protected $cashInFee        =   "";
+    protected $cashOutFee       =   "";
+    protected $freeCashOutAmount= 1000;
+    protected $cashInLimit      = 5.00;
+    protected $cashOutOffset    = 0.50;
+    protected $currencyEur      = 1;
+    protected $currencyUsd      = 1.1497;
+    protected $currencyJpy      = 129.53;
     
     public function __construct()
     {
@@ -17,6 +23,7 @@ class BaseComponent extends SymfonyCommand
 
         $this->setCashInFee(0.03);
         $this->SetCashOutFee(0.3);
+        
     }
 
     public function setCashInFee($percentageFee = 0)
@@ -24,14 +31,14 @@ class BaseComponent extends SymfonyCommand
         $this->cashInFee = $this->getPercentToDecimal($percentageFee);
     }
 
-    public function setCashOutFee($percentageFee = 0)
-    {
-        $this->cashOutFee = $this->getPercentToDecimal($percentageFee);
-    }
-
     public function getCashInFee()
     {
         return $this->cashInFee;
+    }
+
+    public function setCashOutFee($percentageFee = 0)
+    {
+        $this->cashOutFee = $this->getPercentToDecimal($percentageFee);
     }
 
     public function getCashOutFee()
@@ -39,19 +46,39 @@ class BaseComponent extends SymfonyCommand
         return $this->cashOutFee;
     }
 
+    public function setFreeCashOutAmount($freeCashOutAmount)
+    {
+        $this->freeCashOutAmount = $freeCashOutAmount;
+    }
+
+    public function getFreeCashOutAmount()
+    {
+        return $this->freeCashOutAmount;
+    }
+
+    public function setCashInLimit($cashInLimit = 0)
+    {
+        $this->cashInLimit = $cashInLimit;
+    }
+
+    public function getCashInLimit()
+    {
+        return number_format($this->cashInLimit, 2);
+    }
+
+    public function setCashOutOffset($cashOutOffset = 0)
+    {
+        $this->cashOutOffset = $cashOutOffset;
+    }
+
+    public function getCashOutOffset()
+    {
+        return number_format($this->cashOutOffset, 2);
+    }
+
     public function getPercentToDecimal($percent = 0)
     {
         return $percent/100;
-    }
-
-    public function computeCommissionByExceed($exceed, $opType)
-    {
-        if($opType == 'cash_in') {
-            $fee = $this->getCashInFee();
-        } else {
-            $fee = $this->getCashOutFee();
-        }
-        return $exceed * $fee;
     }
 
     
