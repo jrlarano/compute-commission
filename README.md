@@ -1,39 +1,39 @@
 # compute-commission
 
-#Run composer install for dependencies
+### Run composer install for dependencies
 ```sh
 composer install
 ```
 
-#Sample command usage
+### Sample command usage
 ```sh
 $ ./console.php compute-commission input.csv
 ```
 
-#CSV file should be located at
+### CSV file should be located at
 ```sh
 public/csv/
 ```
 
-#Command name
+### Command name
 ```sh
 $ ./console.php compute-commission
 ```
 
-#Argument
+### Argument
 ```sh
 filename with extension '.csv'
 ```
 
-#For more info in command
+### For more info in command
 ```sh
 $ ./console.php compute-commission --help
 ```
 
-#Basic unit testing Command
+### Basic unit testing Command
 ```sh
 ./vendor/bin/simple-phpunit --bootstrap vendor/autoload.php tests
 ```
 
-#Scope and Limitations
-*Currency conversion is not supported yet.
+### Scope and Limitations
+- Currency conversion is not supported yet.
