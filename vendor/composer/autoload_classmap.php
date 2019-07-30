@@ -7,9 +7,9 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Console\\BaseComponent' => $baseDir . '/src/BaseComponent.php',
-    'Console\\CashInComponent' => $baseDir . '/src/CashInComponent.php',
-    'Console\\CashOutComponent' => $baseDir . '/src/CashOutComponent.php',
-    'Console\\ComputeCommission' => $baseDir . '/src/ComputeCommission.php',
-    'Console\\ComputeCommissionCommand' => $baseDir . '/src/ComputeCommissionCommand.php',
-    'Console\\VariableHolder' => $baseDir . '/src/VariableHolder.php',
+    'Console\\Calculator' => $baseDir . '/src/Calculator.php',
+    'Console\\Controller\\CommissionController' => $baseDir . '/src/Controller/CommissionController.php',
+    'Console\\TransactionCollection' => $baseDir . '/src/TransactionCollection.php',
+    'Console\\TransactionModel' => $baseDir . '/src/TransactionModel.php',
+    'Tests\\Unit\\CalculatorTest' => $baseDir . '/tests/Unit/CalculatorTest.php',
 );

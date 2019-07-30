@@ -8,14 +8,20 @@ class ComposerStaticInit8cbecdbed77e2d4b32d9f0ffc148547d
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '92c8763cd6170fce6fcfe7e26b4e8c10' => __DIR__ . '/..' . '/symfony/phpunit-bridge/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
+        'T' => 
+        array (
+            'Tests\\' => 6,
+        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\Console\\' => 26,
+            'Symfony\\Bridge\\PhpUnit\\' => 23,
         ),
         'P' => 
         array (
@@ -28,6 +34,10 @@ class ComposerStaticInit8cbecdbed77e2d4b32d9f0ffc148547d
     );
 
     public static $prefixDirsPsr4 = array (
+        'Tests\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/tests',
+        ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
@@ -39,6 +49,10 @@ class ComposerStaticInit8cbecdbed77e2d4b32d9f0ffc148547d
         'Symfony\\Component\\Console\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
+        ),
+        'Symfony\\Bridge\\PhpUnit\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/phpunit-bridge',
         ),
         'Psr\\Log\\' => 
         array (
@@ -52,11 +66,11 @@ class ComposerStaticInit8cbecdbed77e2d4b32d9f0ffc148547d
 
     public static $classMap = array (
         'Console\\BaseComponent' => __DIR__ . '/../..' . '/src/BaseComponent.php',
-        'Console\\CashInComponent' => __DIR__ . '/../..' . '/src/CashInComponent.php',
-        'Console\\CashOutComponent' => __DIR__ . '/../..' . '/src/CashOutComponent.php',
-        'Console\\ComputeCommission' => __DIR__ . '/../..' . '/src/ComputeCommission.php',
-        'Console\\ComputeCommissionCommand' => __DIR__ . '/../..' . '/src/ComputeCommissionCommand.php',
-        'Console\\VariableHolder' => __DIR__ . '/../..' . '/src/VariableHolder.php',
+        'Console\\Calculator' => __DIR__ . '/../..' . '/src/Calculator.php',
+        'Console\\Controller\\CommissionController' => __DIR__ . '/../..' . '/src/Controller/CommissionController.php',
+        'Console\\TransactionCollection' => __DIR__ . '/../..' . '/src/TransactionCollection.php',
+        'Console\\TransactionModel' => __DIR__ . '/../..' . '/src/TransactionModel.php',
+        'Tests\\Unit\\CalculatorTest' => __DIR__ . '/../..' . '/tests/Unit/CalculatorTest.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

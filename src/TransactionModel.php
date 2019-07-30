@@ -5,9 +5,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+* Calculator Class document comment here
+*
+* @author   Jevy Larano <jevyroque@gmail.com>
+*
+*/
+
 class TransactionModel extends Command
 {
-
     protected $transactionId;
     protected $date;
     protected $userId;
@@ -29,7 +35,6 @@ class TransactionModel extends Command
 
     public function set($row)
     {
-
         $this->setDate($row[0]);
         $this->setWeekNumber($row[0]);
         $this->setUserId($row[1]);

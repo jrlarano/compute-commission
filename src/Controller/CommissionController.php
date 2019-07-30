@@ -10,51 +10,69 @@ use Console\BaseComponent;
 use Console\TransactionCollection;
 use Console\Calculator;
 
+/**
+* Calculator Class document comment here
+*
+* @author   Jevy Larano <jevyroque@gmail.com>
+*
+*/
+
 class CommissionController extends BaseComponent
 {
     
+    protected $csvFolderPath = __DIR__ . '/../../public/csv/';
+
     public function configure()
     {
         $this -> setName('compute-commission')
             -> setDescription('Compute commission for Cash-in and Cash-out')
             -> setHelp('This command allows you to compute commission from CSV file.')
-            -> addArgument('csvPath', InputArgument::REQUIRED, 'The path of CSV file');
+            -> addArgument('csvName', InputArgument::REQUIRED, 'CSV file located at ' . $this->getPublicPath());
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        // $output->writeln(["This is the CSV path", $input->getArgument('csvPath')]);
-        
-        $sampleData = $this->sampleData();
+        $csvName = $input->getArgument('csvName');
+        $csvInputs = [];
 
-        $transactions = new TransactionCollection($sampleData);
+        $csvFullPath = $this->getPublicPath() . $csvName;
+
+        $csvInputs = $this->readFileToArray($csvFullPath);
+
+        $transactions = new TransactionCollection($csvInputs);
 
         $calculator = new Calculator($transactions);
 
-        // print_r($calculator->get());
-        foreach($calculator->get() as $commissionFee) {
-            $output->writeln($commissionFee);
+        foreach($calculator->get() as $transaction) {
+            $output->writeln($transaction->getCommissionFee());
         }
-
     }
 
-    private function sampleData()
+    private function getPublicPath()
     {
-        return $sampleData = [
-            ["2014-12-31",4,"natural","cash_out",1200,"EUR"  ],
-            ["2015-01-01",4,"natural","cash_out",1000,"EUR"  ],
-            ["2016-01-05",4,"natural","cash_out",1000,"EUR"  ],
-            ["2016-01-05",1,"natural","cash_in",200,"EUR"  ],
-            ["2016-01-06",2,"legal","cash_out",300,"EUR"  ],
-            ["2016-01-06",1,"natural","cash_out",30000,"JPY"  ],
-            ["2016-01-07",1,"natural","cash_out",1000,"EUR"  ],
-            ["2016-01-07",1,"natural","cash_out",100,"USD"  ],
-            ["2016-01-10",1,"natural","cash_out",100,"EUR"  ],
-            ["2016-01-10",2,"legal","cash_in",1000000,"EUR"  ],
-            ["2016-01-10",3,"natural","cash_out",1000,"EUR"  ],
-            ["2016-02-15",1,"natural","cash_out",300,"EUR"  ],
-            ["2016-02-19",5,"natural","cash_out",3000000,"JPY"  ],
-        ];
-
+        return str_replace("src/Controller/../../", "", $this->csvFolderPath);
     }
+
+    private function readFileToArray($fullPath)
+    {
+        try{
+            $csvInputs = [];
+            $file = fopen($fullPath,"r");
+
+            if($file) {
+
+                while(!feof($file)) {
+                    $csvInputs[] = fgetcsv($file);
+                }
+
+                fclose($file);
+            }
+
+            return $csvInputs;
+
+        } catch (Exception $e) {
+            echo 'Caught exception: '.  $e->getMessage() . "\n";
+        }
+    }
+
 }

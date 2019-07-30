@@ -5,9 +5,16 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+* Calculator Class document comment here
+*
+* @author   Jevy Larano <jevyroque@gmail.com>
+*
+*/
+
 class BaseComponent extends SymfonyCommand
 {
-
+    //These variables act as config variables for now
     protected $cashInFee        =   "";
     protected $cashOutFee       =   "";
     protected $freeCashOutAmount= 1000;
@@ -79,6 +86,17 @@ class BaseComponent extends SymfonyCommand
     public function getPercentToDecimal($percent = 0)
     {
         return $percent/100;
+    }
+
+    public function getConvertedCurrency($amount = "0", $currency = "EUR")
+    {
+        if($currency == "JPY") {
+            return $amount / $this->currencyJpy;
+        } elseif($currency == "USD") {
+            return $amount / $this->currencyUsd;
+        } else {
+            return $amount;
+        }
     }
 
     

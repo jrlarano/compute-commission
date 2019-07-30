@@ -6,21 +6,42 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Console\TransactionModel;
 
+/**
+* Calculator Class document comment here
+*
+* @author   Jevy Larano <jevyroque@gmail.com>
+*
+*/
+
 class TransactionCollection extends Command
 {
-
     protected $transactions  =   [];
     
-    public function __construct($rows)
+    /**
+     * __construct
+     * 
+     * @param {array} csv $rows
+     *
+     * @returns void
+     */
+    public function __construct($rows = [])
     {
         parent::__construct();
         
         $this->set($rows);
     }
 
+    /**
+     * set
+     * 
+     * @param {array} csv $rows
+     *
+     * @returns void
+     */
     public function set($rows)
     {
         $transactionId = 0;
+
         foreach($rows as $row) {
             $transaction = new TransactionModel($row);
             $transaction->setTransactionId($transactionId);
@@ -29,53 +50,77 @@ class TransactionCollection extends Command
         }
     }
 
+    /**
+     * add
+     * 
+     * @param {TransactionModel} csv $transaction
+     *
+     * @returns void
+     */
     public function add($transaction)
     {
         $this->transactions[] = $transaction;
     }
 
+    /**
+     * get
+     *
+     * @returns array of objects
+     */
     public function get()
     {
         return $this->transactions;
     }
 
+    /**
+     * getByUserId
+     * 
+     * @param {str} $userId
+     *
+     * @returns array of objects {TransactionCollection}
+     */
     public function getByUserId($userId = "")
     {
         $transactions = [];
         foreach($this->transactions as $transaction) {
+
             if($transaction->getUserId() == $userId) {
                 $transactions[] = $transaction;
             }
+
         }
 
         return $transactions;
     }
 
+    /**
+    * getOpAmountsByUserId
+    * 
+    * @param {str} $userId
+    *
+    * @returns array of int
+    */
     public function getOpAmountsByUserId($userId = "")
     {
         $operationAmounts = [];
         foreach($this->transactions as $transaction) {
+
             if($transaction->getUserId() == $userId) {
                 $operationAmounts[] = $transaction->getOperationAmount();
             }
+
         }
 
         return $operationAmounts;
     }
 
-    public function getByUserIdAndWeek($userId = "", $weekNumber = "", $operationType = "")
-    {
-        $weekTransactions = [];
-
-        foreach($this->transactions as $transaction) {
-            if($transaction->getWeekNumber() == $weekNumber && $transaction->getUserId() == $userId && $transaction->getOperationType() == $operationType) {
-                $weekTransactions[] = $transaction;
-            }
-        }
-
-        return $weekTransactions;
-    }
-
+    /**
+    * getWithinWeek
+    * 
+    * @param {TransactionModel} $transaction
+    *
+    * @returns array of Objects
+    */
     public function getWithinWeek($transaction)
     {
 
@@ -95,7 +140,6 @@ class TransactionCollection extends Command
             if($trans->getUserId() == $transaction->getUserId() && $trans->getOperationType() == $transaction->getOperationType()) {
 
                 if($trans->getDate() >= $dateRange['week_start'] && $trans->getDate() <= $dateRange['week_end']) {
-
                     $weekTransactions[] = $trans;
                 }
 
@@ -103,10 +147,16 @@ class TransactionCollection extends Command
         }
 
         return $weekTransactions;
-    
     }
 
-    public function getWeekRange($week, $year) {
+    /**
+    * getWeekRange
+    * 
+    * @param {int, int} $week, $year
+    *
+    * @returns array of Int
+    */
+    private function getWeekRange($week, $year) {
         $date = new \DateTime();
 
         $date->setISODate($year, $week);
